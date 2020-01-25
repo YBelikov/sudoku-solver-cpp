@@ -1,9 +1,10 @@
 #include "Sudoku.h"
 #include "InputStreamHandler.h"
 #include "BackTrackingSolver.h"
+#include "OutputStreamHandler.h"
 #include <iostream>
 
-Sudoku::Sudoku(int width_ = 0, int height_ = 0) {
+Sudoku::Sudoku(int width_, int height_ ) {
 	inputHandler = new InputStreamHandler;
 	solver = new BackTrackingSolver;
 }
@@ -21,27 +22,50 @@ void Sudoku::showSizeMessage() {
 void Sudoku::showStartMessage() {	
 	int typeOfSource = inputHandler->getTypeOfSource();
 	determinateSource(typeOfSource);
+	solve();
 }
 
 void Sudoku::createGameField(int size) {
 	gameField.resize(size);
-	for (auto& x : gameField) {
-		x.resize(size);
-	}
 }
 
 void Sudoku::determinateSource(int sourceCode) {
 	switch (sourceCode) {
 		case 1:
+			std::cout << "Here\n";
 			inputHandler->fillField(gameField, std::cin);
 			break;
 		case 2:
-			inputHandler->openFieldFile();
+			inputHandler->openFieldFile(gameField);
 			break;
 		case 3:
-			inputHandler->generateField(gameField);
+			//inputHandler->generateField(gameField);
+			//it would be better to use field generator directly in this case
 			break;
 		default:
 			return;
 	}
  }
+
+void Sudoku::solve() {
+	outputHandler = new OutputStreamHandler;
+	if (!solver->solve(gameField)) outputHandler->sayAboutSolvingError();
+	else {
+		outputHandler->showSuccessMessage();
+		int code = inputHandler->getOutputTargetCode();
+		makeOutputTo(code);
+	}
+	if (inputHandler->restart()) start();
+	else return;
+}
+
+void Sudoku::makeOutputTo(int code) {
+	switch (code) {
+	
+	case 1: 
+		outputHandler->showResult(std::cout, gameField);
+		break;
+	case 2:
+		outputHandler->writeResultInFile(gameField);
+	}
+}

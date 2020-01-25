@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
+#include "FieldGrid.h"
 
 class Solver {
-	virtual void solve(std::vector<std::vector<int>>&) = 0;
+public:
+	virtual bool solve(FieldGrid<int>&) = 0;
 };
