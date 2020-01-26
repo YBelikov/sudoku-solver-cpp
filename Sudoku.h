@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "FieldGrid.h"
+#include <memory>
 
 class Solver;
 class InputStreamHandler;
@@ -27,8 +27,7 @@ private:
 	int check(int width, int height);
 	void showStartMessage();
 	void makeOutputTo(int);
-	Solver* solver;
-	InputStreamHandler* inputHandler;
-	OutputStreamHandler* outputHandler;
-	
+	std::unique_ptr<Solver> solver;
+	std::unique_ptr<InputStreamHandler> inputHandler;
+	std::unique_ptr<OutputStreamHandler> outputHandler;
 };

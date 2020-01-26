@@ -2,11 +2,14 @@
 #include "InputStreamHandler.h"
 #include "BackTrackingSolver.h"
 #include "OutputStreamHandler.h"
+#include "FieldGrid.h"
+
 #include <iostream>
 
 Sudoku::Sudoku(int width_, int height_ ) {
-	inputHandler = new InputStreamHandler;
-	solver = new BackTrackingSolver;
+	inputHandler = std::make_unique<InputStreamHandler>();
+	solver = std::make_unique<BackTrackingSolver>();
+
 }
 
 void Sudoku::start() {
@@ -48,7 +51,7 @@ void Sudoku::determinateSource(int sourceCode) {
  }
 
 void Sudoku::solve() {
-	outputHandler = new OutputStreamHandler;
+	outputHandler = std::make_unique<OutputStreamHandler>();
 	if (!solver->solve(gameField)) outputHandler->sayAboutSolvingError();
 	else {
 		outputHandler->showSuccessMessage();
