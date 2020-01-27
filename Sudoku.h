@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include "FieldGrid.h"
+#include "OutputStreamHandler.h"
+#include "InputStreamHandler.h"
+#include "Solver.h"
 
-class Solver;
-class InputStreamHandler;
-class OutputStreamHandler;
 
-template<typename T>
-class FieldGrid;
+
 
 class Sudoku {
 
